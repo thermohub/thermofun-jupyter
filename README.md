@@ -1,2 +1,2 @@
 # thermofun-jupyter
-ThermoFun examples in the form of Jupyter notebooks 
+ThermoFun examples using Jupyter notebooks 
