@@ -1,0 +1,13 @@
+name: thermofun-jupyter
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - pip
+  - thermofun
+  - pip:
+    - pandas
+    - matplotlib
+    - IPython
+    - base64
