@@ -10,4 +10,6 @@ dependencies:
     - pandas
     - matplotlib
     - IPython
-#    - voila
+    - voila
+    - py4j
+    - beakerx
