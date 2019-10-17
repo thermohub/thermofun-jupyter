@@ -34,8 +34,6 @@ def plot_substances_properties_vs_temperature(results_csv_file, substances, pres
     mpl.rcParams['figure.figsize']=[9,9]
 
 #    fig = plt.figure()
-
-
     plt.rc('grid', linestyle="--", color='gray')
     plt.grid(True)
     markers = [m for m in Line2D.markers]
@@ -53,7 +51,7 @@ def plot_substances_properties_vs_temperature(results_csv_file, substances, pres
                      marker=next(m_cycle), label=substance, markersize=12, markeredgecolor="w")
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = OrderedDict(zip(labels, handles))
-    legend1 = plt.legend(by_label.values(), by_label.keys(), loc=9, bbox_to_anchor=(1.15, 1)) #, loc=legend_loc)
+    legend1 = plt.legend(by_label.values(), by_label.keys(), loc=9, bbox_to_anchor=(1.2, 1)) #, loc=legend_loc)
     lines = plt.gca().get_lines()
     
     m_cycle = cycle(markers)
@@ -123,8 +121,11 @@ def make_tabs(select_subst, select_reactions, names):
     tab
     return tab
 
+temperatures = [25, 150, 5]
+pressures    = [0,0,0]
+
 def ui(databases_w, dropdown_w):
-    table_style = {'description_width': 'initial'}
+  #  table_style = {'description_width': 'initial'}
     table_layout = {'width':'150px', 'min_width':'150px', 'height':'28px', 'min_height':'28px'}
     row_layout = {'width':'122px', 'min_width':'122px'}
     row_layout2 = {'width':'250px', 'min_width':'250px'}
@@ -132,76 +133,90 @@ def ui(databases_w, dropdown_w):
     databases_w.layout = row_layout
     dropdown_w.layout = row_layout2
 
-    table_header_0_widget = widgets.Text(
-        description='',
-        disabled=True,
-        button_style='',
-        tooltip='',
-        icon='',
-        layout=row_layout,
-        style=table_style
-    )
-
     t0_1_widget = widgets.BoundedIntText( description='Tmin',
                                         value=25,
                                         min=0,
                                         max=1000,
                                         step=1,
-                                        disabled=True,
+                                        disabled=False,
                                     #layout=header_layout,
                                     #style=table_style
                                     layout=table_layout
                                    )
+    def on_value_change_t0_1(change):
+        temperatures[0] = change['new']
+    temperatures[0] = t0_1_widget.value
+    t0_1_widget.observe(on_value_change_t0_1, names='value')
     t0_2_widget = widgets.BoundedIntText( description='Tmax',
                                         value=150,
                                         min=0,
                                         max=1000,
                                         step=1,
-                                        disabled=True,
+                                        disabled=False,
                                     #layout=header_layout,
                                     #style=table_style
                                     layout=table_layout
-                                   ) 
+                                   )
+    def on_value_change_t0_2(change):
+        temperatures[1] = change['new']
+    temperatures[1] = t0_2_widget.value
+    t0_2_widget.observe(on_value_change_t0_2, names='value')
     t0_3_widget = widgets.BoundedIntText( description='Tstep',
                                         value=5,
                                         min=0,
                                         max=1000,
                                         step=1,
-                                        disabled=True,
+                                        disabled=False,
                                     #layout=header_layout,
                                     #style=table_style
                                     layout=table_layout
                                    )
+    def on_value_change_t0_3(change):
+        temperatures[2] = change['new']
+    temperatures[2] = t0_3_widget.value
+    t0_3_widget.observe(on_value_change_t0_3, names='value')
     t1_1_widget = widgets.BoundedIntText( description='Pmin',
                                         value=0,
                                         min=0,
                                         max=100000,
                                         step=1,
-                                        disabled=True,
+                                        disabled=False,
                                     #layout=header_layout,
                                     #style=table_style
                                     layout=table_layout
                                    )
+    def on_value_change_t1_1(change):
+        pressures[0] = change['new']
+    pressures[0] = t1_1_widget.value
+    t1_1_widget.observe(on_value_change_t1_1, names='value')
     t1_2_widget = widgets.BoundedIntText( description='Pmax',
                                         value=0,
                                         min=0,
                                         max=100000,
                                         step=1,
-                                        disabled=True,
+                                        disabled=False,
                                     #layout=header_layout,
                                     #style=table_style
                                     layout=table_layout
-                                   ) 
+                                   )
+    def on_value_change_t1_2(change):
+        pressures[1] = change['new']
+    pressures[1] = t1_2_widget.value
+    t1_2_widget.observe(on_value_change_t1_2, names='value')
     t1_3_widget = widgets.BoundedIntText( description='Pstep',
                                         value=0,
                                         min=0,
                                         max=100000,
                                         step=1,
-                                        disabled=True,
+                                        disabled=False,
                                     #layout=header_layout,
                                     #style=table_style
                                     layout=table_layout
                                    )
+    def on_value_change_t1_3(change):
+        pressures[2] = change['new']
+    pressures[2] = t1_3_widget.value
+    t1_3_widget.observe(on_value_change_t1_3, names='value')
     
 
     hbox1 = widgets.HBox([databases_w, dropdown_w, t0_1_widget, t0_2_widget, t0_3_widget])
@@ -209,6 +224,8 @@ def ui(databases_w, dropdown_w):
     ui = widgets.VBox([hbox1, hbox2])
 
     display(ui)
+
+    return t0_1_widget, t0_2_widget, t0_3_widget, t1_1_widget, t1_2_widget, t1_3_widget
 
 '''
 For the given path, get the List of all files in the directory tree 
@@ -326,10 +343,16 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
         temperature_pressure_pairs = [[50,1000],  [150,1000], [200,1000], [250,1000], [300,1000], [350,1000], 
                               [400,1000], [450,1000], [500,1000], [550,1000], [600,1000], [650,1000], 
                               [700,1000], [800,1000], [900,1000], [1000,1000]]
+        global pressures
+        global temperatures
+
+        print(pressures)
+        print(temperatures)
+
         if tabs.selected_index == 0:
             selected_options = [w.description for w in dfSelectSubst[db_file].children[0].children[1].children if w.value]
             selected_properties = [w.description for w in dfSelectSubst[db_file].children[1].children[1].children if w.value]
-            batch.thermoPropertiesSubstance(temperature_pressure_pairs, selected_options, selected_properties).toCSV("results.csv")
+            batch.thermoPropertiesSubstance(temperatures, pressures, selected_options, selected_properties).toCSV("results.csv")
         else:
             selected_options = [w.description for w in dfSelectReact[db_file].children[0].children[1].children if w.value]
             selected_properties = [w.description for w in dfSelectReact[db_file].children[1].children[1].children if w.value]
@@ -342,7 +365,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
         
         with plot_out:
             clear_output(wait=True)
-            plot_substances_properties_vs_temperature('results.csv', selected_options, 1000)
+            plot_substances_properties_vs_temperature('results.csv', selected_options, pressures[0])
             plt.show()
         with table_out:
             clear_output(wait=True)
