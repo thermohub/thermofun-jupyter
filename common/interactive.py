@@ -23,6 +23,9 @@ from beakerx import TableDisplay
 
 from common.functions import create_csv_download_link
 
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 
 def plot_substances_properties_vs_temperature(results_csv_file, substances, pressure):
 
@@ -356,7 +359,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
         else:
             selected_options = [w.description for w in dfSelectReact[db_file].children[0].children[1].children if w.value]
             selected_properties = [w.description for w in dfSelectReact[db_file].children[1].children[1].children if w.value]
-            batch.thermoPropertiesReaction(temperature_pressure_pairs, selected_options, selected_properties).toCSV("results.csv")
+            batch.thermoPropertiesReaction(temperatures, pressures, selected_options, selected_properties).toCSV("results.csv")
         
 #        ax=plt.gca()
         with link_out:
