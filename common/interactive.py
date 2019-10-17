@@ -81,7 +81,7 @@ def multi_checkbox_widget(records, properties):
     props_dict = {description: widgets.Checkbox(description=description, value=False) for description in properties}
     options = [options_dict[description] for description in records]
     options_props = [props_dict[description] for description in properties]
-    box_layout = Layout(overflow='scroll',
+    box_layout = Layout(overflow_y='scroll',
                     #border='3px solid black',
                     width='max-content',
                     height='300px',
