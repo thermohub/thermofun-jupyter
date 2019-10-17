@@ -1,13 +1,22 @@
 import pandas as pd 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import re 
+import os
+
+import difflib
+import random
+import requests
+import ipywidgets as widgets
 
 from collections import OrderedDict
 from itertools import cycle
 from collections import OrderedDict
 from matplotlib.lines import Line2D
+from ipywidgets import Layout, Label
 
 from IPython.display import HTML
+from IPython.display import display
 import base64
 
 def create_csv_download_link(filename):
@@ -30,7 +39,7 @@ def plot_substances_properties_vs_temperature(results_csv_file, substances, pres
     mpl.rcParams['font.size']=18
     mpl.rcParams['figure.figsize']=[9,9]
 
-    fig = plt.figure()
+#    fig = plt.figure()
 
 
     plt.rc('grid', linestyle="--", color='gray')
@@ -67,5 +76,97 @@ def plot_substances_properties_vs_temperature(results_csv_file, substances, pres
     plt.xlabel("Temperature ($^\circ$C)")
     plt.ylabel("ThermoProp")
 
-    return fig
+#    return fig
+
+
+def multi_checkbox_widget(descriptions):
+    """ Widget with a search field and lots of checkboxes """
+    search_widget = widgets.Text(description="Search")
+    options_dict = {description: widgets.Checkbox(description=description, value=False) for description in descriptions}
+    options = [options_dict[description] for description in descriptions]
+    box_layout = Layout(overflow='scroll',
+                    #border='3px solid black',
+                    width='max-content',
+                    height='300px',
+                    flex_flow='column',
+                    display = 'flex',
+                    align_items = 'stretch',
+                    color='blue')
+
+    options_widget = widgets.VBox(options, layout=box_layout)
+    multi_select = widgets.VBox([search_widget, options_widget])
+
+    # Wire the search field to the checkboxes
+    def on_text_change(change):
+        search_input = change['new']
+        if search_input == '':
+            # Reset search field
+            new_options = [options_dict[description] for description in descriptions]
+        else:
+            # Filter by search field using difflib.
+  #          close_matches = difflib.get_close_matches(search_input, descriptions, n=5, cutoff=0.0)
+            # close_matches = list(filter(lambda x: search_input in x, descriptions)) 
+            close_matches = [x for x in descriptions if re.search(search_input, x, re.IGNORECASE)]
+            new_options = [options_dict[description] for description in close_matches]
+        options_widget.children = new_options
+
+    search_widget.observe(on_text_change, names='value')
+    return multi_select
+
+def tabs(select_subst, select_reactions):
+    tab_contents = ['Substances', 'Reactions']
+    children = [select_subst , select_reactions]
+    tab = widgets.Tab()
+    tab.children = children
+    for i in range(len(children)):
+        tab.set_title(i, tab_contents[i])
+    tab
+    return tab
+
+'''
+For the given path, get the List of all files in the directory tree 
+'''
+def getListOfFiles(dirName):
+    # create a list of file and sub directories 
+    # names in the given directory 
+    listOfFile = os.listdir(dirName)
+    allFiles = list()
+    # Iterate over all the entries
+    for entry in listOfFile:
+    # Create full path
+        fullPath = os.path.join(dirName, entry)
+    # If entry is a directory then get the list of files in this directory 
+        if os.path.isdir(fullPath):
+            allFiles = allFiles + getListOfFiles(fullPath)
+        else:
+            allFiles.append(fullPath)
+    return allFiles
+
+def select_databases(dirName) :
+    origin = widgets.Dropdown(
+    options= getListOfFiles(dirName),
+    value= 'databases/aq17-fun.json',
+  #  description='Available Databases:',
+    layout= Layout(width= 'max-content')
+    )
+
+    def on_dropdown_change(change):
+        if change['name'] == 'value' and (change['new'] != change['old']):
+            print('do something with the change')
+    
+    origin.observe(on_dropdown_change)
+
+
+    items = [Label(value='Available Databases:'), origin]
+
+    box_layout = Layout(
+                    width='max-content',
+                    height='',
+                    flex_direction='row',
+                    display='flex')
+    carousel = widgets.HBox(children=items, layout=box_layout)
+
+    return display(carousel)
+    #return origin
+
            
