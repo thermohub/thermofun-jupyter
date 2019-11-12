@@ -22,10 +22,40 @@ from IPython.display import display, clear_output
 from beakerx import TableDisplay
 
 from common.functions import create_csv_download_link
+import uuid
+from IPython.core.display import display, HTML, Javascript
+
+from numba import jit, prange
+
+import timeit
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+import uuid
+from IPython.display import display_javascript, display_html, display
+import json
+
+class RenderJSON_(object):
+    def __init__(self, json_data):
+        if isinstance(json_data, dict):
+            self.json_str = json.dumps(json_data)
+        else:
+            self.json_str = json
+        self.uuid = str(uuid.uuid4())
+
+        self._ipython_display_()
+
+    def _ipython_display_(self):
+        display_html('<div id="{}" style="height: 600px; width:100%;"></div>'.format(self.uuid),
+            raw=True
+        )
+        display_javascript("""
+        require(["https://rawgit.com/caldwell/renderjson/master/renderjson.js"], function() {
+          renderjson.set_show_to_level(1)
+          document.getElementById('%s').appendChild(renderjson(%s))
+        });
+        """ % (self.uuid, self.json_str), raw=True)
 
 def plot_substances_properties_vs_temperature(results_csv_file, substances, pressure):
 
@@ -76,7 +106,7 @@ def plot_substances_properties_vs_temperature(results_csv_file, substances, pres
 def multi_checkbox_widget(records, properties):
     """ Widget with a search field and lots of checkboxes """
     search_widget = widgets.Text(description="Search")
-    options_dict = {description: widgets.Checkbox(description=description, value=False) for description in records}
+    options_dict = {description: widgets.Checkbox(description=description, value=False) for description in records.keys()}
    # options_dict.values()[0].value = True
     props_dict = {description: widgets.Checkbox(description=description, value=False) for description in properties}
     options = [options_dict[description] for description in records]
@@ -89,12 +119,51 @@ def multi_checkbox_widget(records, properties):
                     display = 'flex',
                     align_items = 'stretch',
                     color='blue')
-    txt = widgets.Label(value='Properties')
+
+    button_details_records = widgets.Button(
+    value=False,
+    description='Show Details of Selected Records',
+    disabled=False,
+    button_style='info', # 'success', 'info', 'warning', 'danger' or ''
+    tooltip='Show Details of Selected Records',
+    layout  = Layout(width= 'max-content')
+#    icon='check'
+    )
+
+    def make_accordion(selected_records):
+        recs_dic = {rec: widgets.Output() for rec in selected_records}
+        recs = [recs_dic[rec] for rec in selected_records]
+        accordion = widgets.Accordion(children=recs, selected_index=None)
+        for i, r in enumerate(selected_records):
+            accordion.set_title(i, r)
+            with accordion.children[i]:
+                #RenderJSON_(records[r].jsonString())
+                clear_output()
+                uuid_ = str(uuid.uuid4())
+                display(HTML('<div id="{}" style="height: auto; width:100%;"></div>'.format(uuid_)))
+                display(HTML("""<script>
+                require(["https://rawgit.com/caldwell/renderjson/master/renderjson.js"], function() {
+                renderjson.set_show_to_level(1)
+                document.getElementById('%s').appendChild(renderjson(%s))
+                });</script>
+                """ % (uuid_, records[r].jsonString())))
+
+#            with accordion.children[i]:
+#                display(display(RenderJSON(records[r].jsonString())))
+#                print(i)
+        
+        return accordion
+    
     options_widget = widgets.VBox(options, layout=box_layout)
+    ac_ = make_accordion([w.description for w in options_widget.children if w.value])
+
+    txt = widgets.Label(value='Properties')
     props_widget = widgets.VBox(options_props, layout=box_layout)
     props_txt = widgets.VBox([txt, props_widget])
     multi_select = widgets.VBox([search_widget, options_widget])
-    multi_data = widgets.HBox([multi_select, props_txt])
+    records_description = widgets.VBox( [ac_], layout=box_layout)
+    records_description_ = widgets.VBox([button_details_records, records_description])
+    multi_data = widgets.HBox([multi_select, props_txt, records_description_])
 
     # Wire the search field to the checkboxes
     def on_text_change(change):
@@ -110,9 +179,19 @@ def multi_checkbox_widget(records, properties):
             new_options = [options_dict[description] for description in close_matches]
         options_widget.children = new_options
 
-    search_widget.observe(on_text_change, names='value')
+    search_widget.observe(on_text_change, names="value")
+
+    def on_button_clicked(b):
+        selected_options_ = [w.description for w in options_widget.children if w.value]
+        new_ac =  make_accordion(selected_options_)
+        records_description.children = [new_ac]
+            
+    button_details_records.on_click(on_button_clicked)
     
     return multi_data
+
+op = fun.BatchPreferences()
+op.isFixed = True # values are written using fixed-point notation
 
 def make_tabs(select_subst, select_reactions, names):
     tab_contents = names
@@ -126,6 +205,36 @@ def make_tabs(select_subst, select_reactions, names):
 
 temperatures = [25, 150, 5]
 pressures    = [0,0,0]
+
+toggle_buttons= {
+          'SubstFromReact':widgets.Checkbox(description='Substance properties from dependent reaction',  value=False),
+          'ReactFromSubst':widgets.Checkbox(description='Reaction properties from reactants',  value=False),
+          'loopTthenP':widgets.Checkbox(description='loop over temperatures then over pressures', value=True),
+          'loopTPthenRecords':widgets.Checkbox(description='loop over TP pairs followed by selected records', value=True)}
+
+toggle_buttons['SubstFromReact'].layout.width='375px'
+toggle_buttons['loopTthenP'].layout.width='375px'
+toggle_buttons['ReactFromSubst'].layout.width='375px'
+toggle_buttons['loopTPthenRecords'].layout.width='375px'
+
+
+op.substancePropertiesFromReaction = toggle_buttons['SubstFromReact'].value
+op.loopTemperatureThenPressure = toggle_buttons['loopTthenP'].value 
+op.reactionPropertiesFromReactants = toggle_buttons['ReactFromSubst'].value
+op.loopOverTPpairsFirst = toggle_buttons['loopTPthenRecords'].value 
+
+def on_toggle(**toggles):
+    global op
+    op.substancePropertiesFromReaction = toggle_buttons['SubstFromReact'].value
+    op.loopTemperatureThenPressure = toggle_buttons['loopTthenP'].value 
+    op.reactionPropertiesFromReactants = toggle_buttons['ReactFromSubst'].value
+    op.loopOverTPpairsFirst = toggle_buttons['loopTPthenRecords'].value 
+
+    #print(toggles)
+    # do something with list of selected
+
+interact_out = widgets.interactive_output(on_toggle, toggle_buttons)
+#display(interact_out)
 
 def ui(databases_w, dropdown_w):
   #  table_style = {'description_width': 'initial'}
@@ -220,10 +329,9 @@ def ui(databases_w, dropdown_w):
         pressures[2] = change['new']
     pressures[2] = t1_3_widget.value
     t1_3_widget.observe(on_value_change_t1_3, names='value')
-    
 
-    hbox1 = widgets.HBox([databases_w, dropdown_w, t0_1_widget, t0_2_widget, t0_3_widget])
-    hbox2 = widgets.HBox([Label(value='',layout=row_layout), Label(value='', layout=row_layout2), t1_1_widget, t1_2_widget, t1_3_widget])
+    hbox1 = widgets.HBox([databases_w, dropdown_w, t0_1_widget, t0_2_widget, t0_3_widget, toggle_buttons['SubstFromReact'], toggle_buttons['loopTthenP'] ])
+    hbox2 = widgets.HBox([Label(value='',layout=row_layout), Label(value='', layout=row_layout2), t1_1_widget, t1_2_widget, t1_3_widget, toggle_buttons['ReactFromSubst'], toggle_buttons['loopTPthenRecords'] ])
     ui = widgets.VBox([hbox1, hbox2])
 
     display(ui)
@@ -249,7 +357,7 @@ def getListOfFiles(dirName):
             allFiles.append(fullPath)
     return allFiles
 
-db_file = 'databases/aq17-fun.json'
+db_file = 'databases/aq17-gem-lma-thermofun.json'
 
 def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
     dirName = 'databases'
@@ -328,19 +436,9 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
         #display(select_subst)
         batch = fun.ThermoBatch(dfDatabase[db_file])
         
-        op = fun.BatchPreferences()
-        op.isFixed = True # values are written using fixed-point notation
-        # if True properties of reactions are calculated from the properties of reactants
-        # if False properties of reactions are calculated from the method in the reaction record
-        op.calcReactFromSubst   = False 
-        # if True properties of substances are calculated from the dependent reactions
-        # if False properties of substances are calculated from the method in the substance record
-        op.calcSubstFromReact   = False 
-        batch.setBatchPreferences(op)
-        
         batch.setPropertiesUnits(["temperature", "pressure"],["degC","bar"])
         batch.setPropertiesDigits(["gibbs_energy","entropy", "volume",
-                            "enthalpy","logKr", "temperature", "pressure"], [0, 4, 4, 4, 4, 0, 0])
+                            "enthalpy","logKr", "temperature", "pressure"], [0, 4, 4, 4, 4, 0, 4])
         #properties = ["gibbs_energy", "enthalpy", "entropy"]
         
         temperature_pressure_pairs = [[50,1000],  [150,1000], [200,1000], [250,1000], [300,1000], [350,1000], 
@@ -348,18 +446,27 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
                               [700,1000], [800,1000], [900,1000], [1000,1000]]
         global pressures
         global temperatures
+        global op
 
-        print(pressures)
-        print(temperatures)
+        batch.setBatchPreferences(op)
+        batch.setTemperatureIncrement(temperatures[0], temperatures[1], temperatures[2])
+        batch.setPressureIncrement(pressures[0], pressures[1], pressures[2])
+
+        #print(pressures)
+        #print(temperatures)
 
         if tabs.selected_index == 0:
             selected_options = [w.description for w in dfSelectSubst[db_file].children[0].children[1].children if w.value]
             selected_properties = [w.description for w in dfSelectSubst[db_file].children[1].children[1].children if w.value]
-            batch.thermoPropertiesSubstance(temperatures, pressures, selected_options, selected_properties).toCSV("results.csv")
+            if (len(selected_options) == 0):
+                selected_options = list(dfDatabase[db_file].mapSubstances().keys())
+            batch.thermoPropertiesSubstance(selected_options, selected_properties).toCSV("results.csv")
         else:
             selected_options = [w.description for w in dfSelectReact[db_file].children[0].children[1].children if w.value]
             selected_properties = [w.description for w in dfSelectReact[db_file].children[1].children[1].children if w.value]
-            batch.thermoPropertiesReaction(temperatures, pressures, selected_options, selected_properties).toCSV("results.csv")
+            if (len(selected_options) == 0):
+                selected_options = list(dfDatabase[db_file].mapReactions().keys())
+            batch.thermoPropertiesReaction(selected_options, selected_properties).toCSV("results.csv")
         
 #        ax=plt.gca()
         with link_out:
@@ -370,12 +477,14 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
             clear_output(wait=True)
             plot_substances_properties_vs_temperature('results.csv', selected_options, pressures[0])
             plt.show()
+            print("Under Construction (works only if P=1000 is present).")
         with table_out:
             clear_output(wait=True)
             df = pd.read_csv('results.csv')
             #display(df)
             table = TableDisplay(df)
             display(table)
+            print("Select no record to calculate properties for all records:). ")
             
     button.on_click(on_button_clicked)
 
