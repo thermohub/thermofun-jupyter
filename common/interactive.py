@@ -25,8 +25,6 @@ from common.functions import create_csv_download_link
 import uuid
 from IPython.core.display import display, HTML, Javascript
 
-from numba import jit, prange
-
 import timeit
 
 import warnings
