@@ -535,8 +535,8 @@ def initialize_widgets() :
         for i, f in enumerate(files):
             progress.value = i+1
             dfDatabase[f] = fun.Database(f)
-            dfSelectSubst[f] = multi_checkbox_widget(dfDatabase[f].mapSubstances(), ["gibbs_energy","enthalpy","entropy","heat_capacity_cp","heat_capacity_cv","volume","helmholtz_energy","internal_energy"])
-            dfSelectReact[f] = multi_checkbox_widget(dfDatabase[f].mapReactions(), ["reaction_gibbs_energy","reaction_helmholtz_energy","reaction_internal_energy","reaction_enthalpy","reaction_entropy","reaction_volume","reaction_heat_capacity_cp","reaction_heat_capacity_cv","logKr","lnKr"])
+            dfSelectSubst[f] = multi_checkbox_widget(dfDatabase[f].mapSubstances(), ["gibbs_energy","enthalpy","entropy","heat_capacity_cp","volume"])
+            dfSelectReact[f] = multi_checkbox_widget(dfDatabase[f].mapReactions(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"])
             progress.value = i+1
             #time.sleep(0.1)
         with data_out:
