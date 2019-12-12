@@ -1,4 +1,4 @@
-import thermofun.PyThermoFun as fun
+import thermofun as fun
 
 import pandas as pd 
 import matplotlib as mpl
