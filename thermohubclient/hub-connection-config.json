@@ -1,0 +1,29 @@
+{
+  "arangodb" :   {
+       "UseArangoDBInstance" :   "ArangoDBRemote",
+       "UseVelocypackPut" :   true,
+       "UseVelocypackGet" :   true,
+       "ArangoDBLocal" :   {
+            "DBName" :   "a0_hub_main_20_12_2019",
+            "DBCreate" :   true,
+            "DB_URL" :   "http://localhost:8529",
+            "DBUser" :   "root",
+            "DBUserPassword" :   "",
+            "DBAccess" :   "rw",
+            "DBRootName" :   "_system",
+            "DBRootUser" :   "root",
+            "DBRootPassword" :   ""
+       },
+       "ArangoDBRemote" :   {
+            "DBName" :   "hub_main",
+            "DBCreate" :   false,
+            "DB_URL" :   "https://db.thermohub.net",
+            "DBUser" :   "funrem",
+            "DBUserPassword" :   "ThermoFun@Remote-ThermoHub-Server",
+            "DBAccess" :   "ro",
+            "DBRootName" :   "_system",
+            "DBRootUser" :   "",
+            "DBRootPassword" :   ""
+       }
+  }
+}

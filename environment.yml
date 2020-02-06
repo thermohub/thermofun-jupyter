@@ -5,7 +5,8 @@ dependencies:
   - python
   - numpy
   - pip
-  - thermofun>=0.2.2
+  - thermofun
+  - thermohubclient
   - pip:
     - pandas
     - matplotlib
