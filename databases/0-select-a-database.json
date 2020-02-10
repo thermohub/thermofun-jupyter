@@ -1,0 +1,12 @@
+{
+  "datasources": [
+    "db.thermohub.org"
+  ],
+  "date": "05.02.2020 20:00:39",
+  "elements": [],
+  "reactions": [],
+  "substances": [],
+  "thermodataset": [
+    "empty"
+  ]
+}
