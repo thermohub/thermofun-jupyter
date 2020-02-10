@@ -548,9 +548,9 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
         with table_out:
             clear_output(wait=True)
             df = pd.read_csv('results.csv')
-            display(df)
-            #table = TableDisplay(df)
-            #display(table)
+            #display(df)
+            table = TableDisplay(df)
+            display(table)
             print("Select no record to calculate properties for all records:). ")
         with status_out:
             clear_output(wait=True)
