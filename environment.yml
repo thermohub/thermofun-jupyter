@@ -2,7 +2,7 @@ name: thermofun-jupyter
 channels:
   - conda-forge
 dependencies:
-  - python
+  - python=3.7
   - numpy
   - pip
   - thermofun
