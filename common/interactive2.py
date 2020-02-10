@@ -223,7 +223,7 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
 def make_tabs(select_subst, select_reactions, names):
     tab_contents = names
     children = [select_subst, select_reactions]
-    tab = widgets.Tab()
+    tab = widgets.Tab(layout=Layout(max_width='max-content'))
     tab.children = children
     for i in range(len(children)):
         tab.set_title(i, tab_contents[i])
