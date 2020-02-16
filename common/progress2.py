@@ -25,9 +25,11 @@ def log_progress(sequence, every=None, size=None, name='Items', progress_out=wid
 
         if is_iterator:
             progress = IntProgress(min=0, max=1, value=1)
+            progress.layout={'width':'214px', 'max_width':'214px'}
             progress.bar_style = 'info'
         else:
             progress = IntProgress(min=0, max=size, value=0)
+            progress.layout={'width':'214px', 'max_width':'214px'}
         label = HTML()
         box = HBox(children=[progress, label])
         display(box)

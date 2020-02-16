@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import re 
 import os
 import base64
+import copy
 #import difflib
 import ipywidgets as widgets
 
@@ -107,6 +108,62 @@ def make_options(options_dict, description):
     options_dict.add(description, widgets.Checkbox(description=description, value=False))
     return options_dict
 
+def input_reactions_widget(substances, properties):
+    input_reactions_textbox = widgets.Textarea(
+    value='# Write reactions using substance \'symbols\'\n# e.g. Calcite (left column) not CaCO3\n# Carefully balance the reactions!\nH2O@ = H+ + OH-',
+    description='',
+    layout=Layout(max_width='max-content', 
+    min_width='360px',
+    max_height='max-content', 
+    height='340px')
+)
+
+    """ Widget with a search field and lots of checkboxes """
+    search_widget = widgets.Text(description="Search")
+
+    subst_dict = {description: widgets.Text(layout={'width':'max-content'},
+        description=description, value=substances[description].formula(), placeholder='Type something', disabled=True) for description in substances.keys()}
+    box_layout = Layout(overflow_y='scroll', overflow_x='scroll',
+                    #border='3px solid black',
+                    width='max-content',
+                    height='320px',
+                    flex_flow='column',
+                    display = 'flex',
+                    align_items = 'stretch',
+                    color='blue')
+    substs = [subst_dict[description] for description in substances.keys()]#records]
+
+    subst_widget = widgets.VBox(substs, layout=box_layout)
+    
+    # Wire the search field to the checkboxes
+    def on_text_change(change):
+        search_input = change['new']
+        if search_input == '':
+            # Reset search field
+            new_options = [subst_dict[description] for description in substances.keys()]
+        else:
+            # Filter by search field using difflib.
+  #          close_matches = difflib.get_close_matches(search_input, records, n=5, cutoff=0.0)
+            # close_matches = list(filter(lambda x: search_input in x, records)) 
+            close_matches = [x for x in substances.keys() if re.search(search_input, substances[x].formula(), re.IGNORECASE)]
+            new_options = [subst_dict[description] for description in close_matches]
+        subst_widget.children = new_options
+
+    props_dict = {description: widgets.Checkbox(description=description, value=False, style={'description_width': '10px'}) for description in properties}
+    props_dict[properties[0]].value = True
+    options_props = [props_dict[description] for description in properties]
+    # txt = widgets.Label(value='Properties')
+    props_widget = widgets.VBox(options_props, layout=box_layout)
+    # /props_txt = widgets.VBox([txt, props_widget])
+
+    search_widget.observe(on_text_change, names="value")
+    multi_select = widgets.VBox([search_widget, subst_widget])
+    multi_data = widgets.HBox([ multi_select, input_reactions_textbox, props_widget])
+
+    return multi_data
+
+# somehow remember the text area per database, not really important
+
 
 def multi_checkbox_widget(records, properties, reaction_equations = []):
     """ Widget with a search field and lots of checkboxes """
@@ -130,13 +187,14 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
    # options_dict.values()[0].value = True
     """ Properties of subst or reactions """
     props_dict = {description: widgets.Checkbox(description=description, value=False) for description in properties}
+    props_dict[properties[0]].value = True
     
     options = [options_dict[description] for description in records_keys]#records]
     options_props = [props_dict[description] for description in properties]
     box_layout = Layout(overflow_y='scroll', overflow_x='scroll',
                     #border='3px solid black',
                     width='max-content',
-                    height='300px',
+                    height='320px',
                     flex_flow='column',
                     display = 'flex',
                     align_items = 'stretch',
@@ -220,10 +278,19 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
     
     return multi_data
 
+def make_tabs_3(select_subst, select_reactions, input_reactions, names):
+    tab_contents = names  
+    children = [select_subst, select_reactions, input_reactions]
+    tab = widgets.Tab(layout=Layout(max_width='max-content', min_width='450px'))
+    tab.children = children
+    for i in range(len(children)):
+        tab.set_title(i, tab_contents[i])
+    return tab
+
 def make_tabs(select_subst, select_reactions, names):
     tab_contents = names
     children = [select_subst, select_reactions]
-    tab = widgets.Tab(layout=Layout(max_width='max-content'))
+    tab = widgets.Tab(layout=Layout(max_width='max-content', min_width='450px'))
     tab.children = children
     for i in range(len(children)):
         tab.set_title(i, tab_contents[i])
@@ -282,7 +349,7 @@ def ui(databases_w, dropdown_w):
   #  table_style = {'description_width': 'initial'}
     table_layout = {'width':'120px', 'min_width':'120px', 'height':'28px', 'min_height':'28px'}
     row_layout = {'width':'122px', 'min_width':'122px'}
-    row_layout2 = {'width':'240px', 'min_width':'240px'}
+    row_layout2 = {'width':'254px', 'min_width':'254px'}
 
     databases_w.layout = row_layout
     dropdown_w.layout = row_layout2
@@ -379,8 +446,18 @@ def ui(databases_w, dropdown_w):
     pressures[2] = t1_3_widget.value
     t1_3_widget.observe(on_value_change_t1_3, names='value')
 
+    global progress
+    hbox=widgets.HBox(children=[progress])
+    # with progress_out:
+    #     #display(widgets.IntSlider())
+    #     display(hbox)
+    
+    # display(progress_out)
+
+    progress_out.layout={'width':'380px', 'min_width':'380px'}
+
     hbox1 = widgets.HBox([databases_w, dropdown_w, t0_1_widget, t0_2_widget, t0_3_widget, toggle_buttons['SubstFromReact']])#, toggle_buttons['loopTthenP'] ])
-    hbox2 = widgets.HBox([Label(value='',layout=row_layout), Label(value='', layout=row_layout2), t1_1_widget, t1_2_widget, t1_3_widget , toggle_buttons['ReactFromSubst']]) #, toggle_buttons['loopTPthenRecords'] ])
+    hbox2 = widgets.HBox([progress_out, t1_1_widget, t1_2_widget, t1_3_widget , toggle_buttons['ReactFromSubst']]) #, toggle_buttons['loopTPthenRecords'] ])
     ui = widgets.VBox([hbox1, hbox2])
 
     display(ui)
@@ -406,7 +483,17 @@ def getListOfFiles(dirName):
             allFiles.append(fullPath)
     return allFiles
 
-def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
+def stripComments(code):
+    code = str(code)
+    return re.sub(r'(?m)^ *#.*\n?', '', code)
+
+def parse_reactions(text):
+    textn = stripComments(text)
+    postString = textn.split("\n")
+
+    return postString
+
+def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
     dirName = 'databases'
     global db_file
     origin  = widgets.Dropdown(
@@ -420,7 +507,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
     # select_react = multi_checkbox_widget(database.mapReactions())
 
     
-    tabs = make_tabs(dfSelectSubst[db_file], dfSelectReact[db_file], ['Substances', 'Reactions'])
+    tabs = make_tabs_3( dfSelectSubst[db_file], dfSelectReact[db_file], dfInputReact[db_file], ['Substances', 'Reactions', 'Write Reactions'])
     
     plot_out=widgets.Output()
     link_out=widgets.Output()
@@ -448,28 +535,39 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
 
     def on_dropdown_change(change):
         if change['name'] == 'value' and (change['new'] != change['old']):
-            global db_file 
+            global db_file
+            origin.disabled = True
+            button.disabled = True
             db_file = change['new']
             global database
-            database = fun.Database(db_file)
-            reaction_equations = []
-            for r in database.mapReactions().values():
-                 reaction_equations.append(r.equation())
-            dfSelectReact[db_file] = multi_checkbox_widget(database.mapReactions(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"],
-                                                         reaction_equations)
-            dfSelectSubst[db_file] = multi_checkbox_widget(database.mapSubstances(), ["gibbs_energy","enthalpy","entropy","heat_capacity_cp","volume"])
-            # select_subst_n = multi_checkbox_widget(database.mapSubstances())
-            # select_react_n = multi_checkbox_widget(database.mapReactions())
-            # select_subst.children = dfSelectSubst[db_file].children
-            # select_react.children = dfSelectReact[db_file].children
-            tabs_new = make_tabs(dfSelectSubst[db_file], dfSelectReact[db_file], ['Substances', 'Reactions'])
-            tabs.children = tabs_new.children
+            try:
+                database = fun.Database(db_file)
+                reaction_equations = []
+                for r in database.mapReactions().values():
+                     reaction_equations.append(r.equation())
+                dfSelectReact[db_file] = multi_checkbox_widget(database.mapReactions(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"],
+                                                             reaction_equations)
+                dfSelectSubst[db_file] = multi_checkbox_widget(database.mapSubstances(), ["gibbs_energy","enthalpy","entropy","heat_capacity_cp","volume"])
+                dfInputReact[db_file] = input_reactions_widget(database.mapSubstances(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"])
+                # select_subst_n = multi_checkbox_widget(database.mapSubstances())
+                # select_react_n = multi_checkbox_widget(database.mapReactions())
+                # select_subst.children = dfSelectSubst[db_file].children
+                # select_react.children = dfSelectReact[db_file].children
+                #ndx = copy.deepcopy(tabs.selected_index)
+                tabs_new = make_tabs_3(dfSelectSubst[db_file], dfSelectReact[db_file], dfInputReact[db_file], ['Substances', 'Reactions', 'Write Reactions'])
+                tabs.children = tabs_new.children
+                #tabs.selected_index=ndx
 
-            with plot_out:
-                clear_output()
-            with table_out:
-                clear_output()
-    
+                with plot_out:
+                    clear_output()
+                with table_out:
+                    clear_output()
+            except Exception as e:
+                with status_out:
+                    clear_output(wait=True)
+                    print(e)
+            origin.disabled = False
+            button.disabled = False
     origin.observe(on_dropdown_change)
     
     items = [Label(value='Available Databases:'), origin]
@@ -485,6 +583,8 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
     def on_button_clicked(b):
   #      with output:
   #      print("Button clicked.")
+        origin.disabled = True
+        button.disabled = True
         global db_file
         #display(select_subst)
         batch = fun.ThermoBatch(database)
@@ -510,51 +610,64 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact) :
         #print(pressures)
         #print(temperatures)
 
-        if tabs.selected_index == 0:
-            selected_options = [w.description for w in dfSelectSubst[db_file].children[0].children[1].children if w.value]
-            selected_properties = [w.description for w in dfSelectSubst[db_file].children[1].children[1].children if w.value]
-            if (len(selected_options) == 0):
-                selected_options = list(database.mapSubstances().keys())
-            batch.thermoPropertiesSubstance(selected_options, selected_properties).toCSV("results.csv")
-        else:
-            selected_options = [w.description for w in dfSelectReact[db_file].children[0].children[1].children if w.value]
-            new_keys = []
-            global reac_keys_dic
-            for k in selected_options:
-                new_keys.append(reac_keys_dic[k])
-            selected_options= new_keys
-            selected_properties = [w.description for w in dfSelectReact[db_file].children[1].children[1].children if w.value]
-            if (len(selected_options) == 0):
-                selected_options = list(database.mapReactions().keys())
-            batch.thermoPropertiesReaction(selected_options, selected_properties).toCSV("results.csv")
-        
-#        ax=plt.gca()
+        try:
+            if tabs.selected_index == 0:
+                selected_options = [w.description for w in dfSelectSubst[db_file].children[0].children[1].children if w.value]
+                selected_properties = [w.description for w in dfSelectSubst[db_file].children[1].children[1].children if w.value]
+                if (len(selected_options) == 0):
+                    selected_options = list(database.mapSubstances().keys())
+                batch.thermoPropertiesSubstance(selected_options, selected_properties).toCSV("results.csv")
+            elif tabs.selected_index == 1:
+                selected_options = [w.description for w in dfSelectReact[db_file].children[0].children[1].children if w.value]
+                new_keys = []
+                global reac_keys_dic
+                for k in selected_options:
+                    new_keys.append(reac_keys_dic[k])
+                selected_options= new_keys
+                selected_properties = [w.description for w in dfSelectReact[db_file].children[1].children[1].children if w.value]
+                if (len(selected_options) == 0):
+                    selected_options = list(database.mapReactions().keys())
+                batch.thermoPropertiesReaction(selected_options, selected_properties).toCSV("results.csv")
+            elif tabs.selected_index == 2:
+                selected_properties = [w.description for w in dfInputReact[db_file].children[2].children if w.value]
+                selected_options = parse_reactions(dfInputReact[db_file].children[1].value)
+                op.reactionPropertiesFromReactants=False
+                batch.setBatchPreferences(op)
+                batch.thermoPropertiesReaction(selected_options, selected_properties).toCSV("results.csv")
+            
+    #        ax=plt.gca()
 
-        with link_out:
-            clear_output(wait=True)
-            display(create_csv_download_link("results.csv"))
-        
-        with status_out:
-            clear_output(wait=True)
-            print('Reading the results')
-        
-        with plot_out:
-            clear_output(wait=True)
-            df = pd.read_csv('results.csv')
-            plot_substances_properties_vs_temperature('results.csv', selected_options, df['P(bar)'])
-            p = pd.unique(df['P(bar)'])
-            plt.show()
-            print(f'Pressure {p}(bar)')
-        with table_out:
-            clear_output(wait=True)
-            df = pd.read_csv('results.csv')
-            #display(df)
-            table = TableDisplay(df)
-            display(table)
-            print("Select no record to calculate properties for all records:). ")
-        with status_out:
-            clear_output(wait=True)
-            print('Finished')
+            with link_out:
+                clear_output(wait=True)
+                display(create_csv_download_link("results.csv"))
+            
+            with status_out:
+                clear_output(wait=True)
+                print('Reading the results')
+            
+            with plot_out:
+                clear_output(wait=True)
+                df = pd.read_csv('results.csv')
+                plot_substances_properties_vs_temperature('results.csv', selected_options, df['P(bar)'])
+                p = pd.unique(df['P(bar)'])
+                plt.show()
+                print(f'Pressure {p}(bar)')
+            with table_out:
+                clear_output(wait=True)
+                df = pd.read_csv('results.csv')
+                #display(df)
+                table = TableDisplay(df)
+                display(table)
+                print("Select no record to calculate properties for all records:). ")
+            with status_out:
+                clear_output(wait=True)
+                print('Finished')
+        except Exception as e:
+            with status_out:
+                clear_output(wait=True)
+                print(e)
+        origin.disabled = False
+        button.disabled = False
             
     button.on_click(on_button_clicked)
 
@@ -575,40 +688,15 @@ def initialize_widgets() :
     dfDatabase    = {}
     dfSelectSubst = {}
     dfSelectReact = {}
+    dfInputReact = {}
 
+    # global progress
+    # hbox=widgets.HBox(children=[progress])
+    # with progress_out:
+    #     #display(widgets.IntSlider())
+    #     display(hbox)
     
-    
-#     button = widgets.Button(
-#     value=False,
-#     description='Load Data',
-#     disabled=False,
-#     button_style='', # 'success', 'info', 'warning', 'danger' or ''
-#     tooltip='Load Data',
-# #    icon='check'
-#     )
-
-#     files = getListOfFiles('databases')
-
-
-
-#    print('files')
-
-#     progress = widgets.IntProgress(
-#     value=0,
-#     min=0,
-#     max=len(files),
-#  #   step=1,
-#  #   description='Loading:',
-#     bar_style='', # 'success', 'info', 'warning', 'danger' or ''
-#     orientation='horizontal'
-#     )
-    global progress
-    hbox=widgets.HBox(children=[progress])
-    with progress_out:
-        #display(widgets.IntSlider())
-        display(hbox)
-    
-    display(progress_out)
+    # display(progress_out)
 
 #     def on_button_clicked(b):
 #         for i, f in enumerate(files):
@@ -628,14 +716,21 @@ def initialize_widgets() :
             
 #     button.on_click(on_button_clicked)
     global db_file
+    try:
+        database = fun.Database(db_file)
+        reaction_equations = []
+        for r in database.mapReactions().values():
+            reaction_equations.append(r.equation())
+        dfSelectReact[db_file] = multi_checkbox_widget(database.mapReactions(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"],
+                                                            reaction_equations)
+        dfSelectSubst[db_file] = multi_checkbox_widget(database.mapSubstances(), ["gibbs_energy","enthalpy","entropy","heat_capacity_cp","volume"])
 
-    database = fun.Database(db_file)
-    reaction_equations = []
-    for r in database.mapReactions().values():
-        reaction_equations.append(r.equation())
-    dfSelectReact[db_file] = multi_checkbox_widget(database.mapReactions(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"],
-                                                        reaction_equations)
-    dfSelectSubst[db_file] = multi_checkbox_widget(database.mapSubstances(), ["gibbs_energy","enthalpy","entropy","heat_capacity_cp","volume"])
-    load_widgets(dfDatabase, dfSelectSubst, dfSelectReact)
+        dfInputReact[db_file] = input_reactions_widget(database.mapSubstances(), ["logKr", "reaction_gibbs_energy","reaction_enthalpy","reaction_entropy","reaction_heat_capacity_cp", "reaction_volume"])
+    except Exception as e:
+        with progress_out:
+            clear_output(wait=True)
+            print(e)
+
+    load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact)
 
 
