@@ -119,11 +119,11 @@ def input_reactions_widget(substances, properties):
 )
 
     """ Widget with a search field and lots of checkboxes """
-    search_widget = widgets.Text(description="Search")
+    search_widget = widgets.Text(description="Search", style={'description_width': '50px'})
 
-    subst_dict = {description: widgets.Text(layout={'width':'max-content'},
-        description=description, value=substances[description].formula(), placeholder='Type something', disabled=True) for description in substances.keys()}
-    box_layout = Layout(overflow_y='scroll', overflow_x='scroll',
+    subst_dict = {description: widgets.Text(layout={'width':'285px'}, style={'description_width': '100px'},
+        description=description, value=substances[description].formula(), disabled=True) for description in substances.keys()}
+    box_layout = Layout(#overflow_y='scroll',
                     #border='3px solid black',
                     width='max-content',
                     height='320px',
@@ -152,13 +152,13 @@ def input_reactions_widget(substances, properties):
     props_dict = {description: widgets.Checkbox(description=description, value=False, style={'description_width': '10px'}) for description in properties}
     props_dict[properties[0]].value = True
     options_props = [props_dict[description] for description in properties]
-    # txt = widgets.Label(value='Properties')
+    txt = widgets.Label(value='Properties')
     props_widget = widgets.VBox(options_props, layout=box_layout)
-    # /props_txt = widgets.VBox([txt, props_widget])
+    props_txt = widgets.VBox([txt, props_widget])
 
     search_widget.observe(on_text_change, names="value")
     multi_select = widgets.VBox([search_widget, subst_widget])
-    multi_data = widgets.HBox([ multi_select, input_reactions_textbox, props_widget])
+    multi_data = widgets.HBox([ multi_select, input_reactions_textbox, props_txt])
 
     return multi_data
 
@@ -167,7 +167,7 @@ def input_reactions_widget(substances, properties):
 
 def multi_checkbox_widget(records, properties, reaction_equations = []):
     """ Widget with a search field and lots of checkboxes """
-    search_widget = widgets.Text(description="Search")
+    search_widget = widgets.Text(description="Search", style={'description_width': '50px'})
 
     ''' Creates reac_keys_dic to display reaction equations but still be able 
     to call the calculation function using the rection symbol '''
@@ -183,17 +183,26 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
     # for descr in log_progress(iter(records_keys), every=1):
     #     options_dict=make_options(options_dict, descr)
 
-    options_dict = {description: widgets.Checkbox(description=description, value=False) for description in log_progress(iter(records_keys), every=1, size=len(records_keys), name='Records', progress_out=progress_out)}
+    options_dict = {description: widgets.Checkbox(description=description, value=False,style={'description_width': '10px'}, layout={'width':'285px'}) for description in log_progress(iter(records_keys), every=1, size=len(records_keys), name='Records', progress_out=progress_out)}
    # options_dict.values()[0].value = True
     """ Properties of subst or reactions """
-    props_dict = {description: widgets.Checkbox(description=description, value=False) for description in properties}
+    props_dict = {description: widgets.Checkbox(description=description, value=False, style={'description_width': '10px'}) for description in properties}
     props_dict[properties[0]].value = True
     
     options = [options_dict[description] for description in records_keys]#records]
     options_props = [props_dict[description] for description in properties]
-    box_layout = Layout(overflow_y='scroll', overflow_x='scroll',
+    box_layout = Layout(#overflow_y='scroll',
                     #border='3px solid black',
                     width='max-content',
+                    height='320px',
+                    flex_flow='column',
+                    display = 'flex',
+                    align_items = 'stretch',
+                    color='blue')
+
+    box_layout2 = Layout(#overflow_y='scroll',
+                    #border='3px solid black',
+                    width='300px',
                     height='320px',
                     flex_flow='column',
                     display = 'flex',
@@ -281,7 +290,7 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
 def make_tabs_3(select_subst, select_reactions, input_reactions, names):
     tab_contents = names  
     children = [select_subst, select_reactions, input_reactions]
-    tab = widgets.Tab(layout=Layout(max_width='max-content', min_width='450px'))
+    tab = widgets.Tab(layout=Layout(max_width='max-content', min_width='600px'))
     tab.children = children
     for i in range(len(children)):
         tab.set_title(i, tab_contents[i])
@@ -290,7 +299,7 @@ def make_tabs_3(select_subst, select_reactions, input_reactions, names):
 def make_tabs(select_subst, select_reactions, names):
     tab_contents = names
     children = [select_subst, select_reactions]
-    tab = widgets.Tab(layout=Layout(max_width='max-content', min_width='450px'))
+    tab = widgets.Tab(layout=Layout(max_width='max-content', min_width='600px'))
     tab.children = children
     for i in range(len(children)):
         tab.set_title(i, tab_contents[i])
@@ -513,7 +522,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
     link_out=widgets.Output()
     status_out=widgets.Output()
 
-    box_layout2 = Layout(overflow='scroll',
+    box_layout2 = Layout(#overflow='scroll',
                     #border='3px solid black',
                     width='max-content',
                     height='500px',
@@ -629,7 +638,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
                     selected_options = list(database.mapReactions().keys())
                 batch.thermoPropertiesReaction(selected_options, selected_properties).toCSV("results.csv")
             elif tabs.selected_index == 2:
-                selected_properties = [w.description for w in dfInputReact[db_file].children[2].children if w.value]
+                selected_properties = [w.description for w in dfInputReact[db_file].children[2].children[1].children if w.value]
                 selected_options = parse_reactions(dfInputReact[db_file].children[1].value)
                 op.reactionPropertiesFromReactants=False
                 batch.setBatchPreferences(op)
