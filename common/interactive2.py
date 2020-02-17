@@ -640,8 +640,11 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
             elif tabs.selected_index == 2:
                 selected_properties = [w.description for w in dfInputReact[db_file].children[2].children[1].children if w.value]
                 selected_options = parse_reactions(dfInputReact[db_file].children[1].value)
-                op.reactionPropertiesFromReactants=False
-                batch.setBatchPreferences(op)
+                op2 = fun.BatchPreferences()
+                op2.isFixed = op.isFixed
+                op2.substancePropertiesFromReaction=False
+                op2.reactionPropertiesFromReactants=False
+                batch.setBatchPreferences(op2)
                 batch.thermoPropertiesReaction(selected_options, selected_properties).toCSV("results.csv")
             
     #        ax=plt.gca()
