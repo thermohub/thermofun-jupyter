@@ -494,7 +494,8 @@ def getListOfFiles(dirName):
 
 def stripComments(code):
     code = str(code)
-    return re.sub(r'(?m)^ *#.*\n?', '', code)
+    no_commpents = re.sub(r'(?m)^ *#.*\n?', '', code)
+    return re.sub(r'^(?:[\t ]*(?:\r?\n|\r))+','', no_commpents)
 
 def parse_reactions(text):
     textn = stripComments(text)
