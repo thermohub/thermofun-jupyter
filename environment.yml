@@ -5,7 +5,7 @@ dependencies:
   - python=3.7.5
   - numpy
   - pip
-  - thermofun>=0.3.1
+  - thermofun>=0.3.4
   - thermohubclient
   - pandas=0.25.3
   - pip:
