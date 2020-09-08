@@ -13,4 +13,4 @@ dependencies:
     - IPython
     - voila
     - py4j
-    - beakerx
+    - beakerx=1.4.1
