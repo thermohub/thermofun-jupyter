@@ -7,10 +7,10 @@ dependencies:
   - pip
   - thermofun>=0.3.4
   - thermohubclient
-  - pandas
+  - pandas=0.25.3
+  - beakerx=1.4.1
   - pip:
     - matplotlib
     - IPython
     - voila
     - py4j
-    - beakerx
