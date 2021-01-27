@@ -602,8 +602,8 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
             clear_output(wait=True)
             print('Calculating...')    
         batch.setPropertiesUnits(["temperature", "pressure"],["degC","bar"])
-        batch.setPropertiesDigits(["gibbs_energy","entropy", "volume",
-                            "enthalpy","logKr", "temperature", "pressure"], [0, 4, 4, 4, 4, 0, 4])
+        batch.setPropertiesDigits(["gibbs_energy","entropy", "volume","enthalpy", "heat_capacity_cp",
+                                   "logKr", "reaction_gibbs_energy", "reaction_entropy", "reaction_volume","reaction_enthalpy", "reaction_heat_capacity_cp",  "temperature", "pressure"], [1, 4, 4, 1, 4, 4, 1, 4, 4, 1, 4, 1, 4])
         #properties = ["gibbs_energy", "enthalpy", "entropy"]
         
         temperature_pressure_pairs = [[50,1000],  [150,1000], [200,1000], [250,1000], [300,1000], [350,1000], 
