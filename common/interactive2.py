@@ -184,7 +184,7 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
     #     options_dict=make_options(options_dict, descr)
 
     options_dict = {description: widgets.Checkbox(description=description, value=False,style={'description_width': '10px'}, layout={'width':'285px'}) for description in log_progress(iter(records_keys), every=1, size=len(records_keys), name='Records', progress_out=progress_out)}
-    options_dict.values()[0].value = True # first record ticked
+    options_dict[records_keys[0]].value = True # first record ticked
     """ Properties of subst or reactions """
     props_dict = {description: widgets.Checkbox(description=description, value=False, style={'description_width': '10px'}) for description in properties}
     props_dict[properties[0]].value = True
