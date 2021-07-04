@@ -678,7 +678,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
                 df = pd.read_csv('results.csv')
                 cols1 = df.columns
 
-                fig = px.scatter_3d(df, x = df[cols1[2]], y = df[cols1[1]] ,z=df[cols1[3]], color='Symbol', hover_name="Symbol")
+                fig = px.scatter_3d(df, x = df[cols1[2]], y = df[cols1[1]] ,z=df[cols1[3]], color='Symbol', hover_name="Symbol", width=700, height=600)
 
                 fig.update_traces(marker=dict(size=4, opacity=0.8), selector=dict(mode='markers'))
 
@@ -695,8 +695,8 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
                 # label = cols1[k])   for k in range(3, len(cols1))] 
 
 
-                fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), scene_camera=dict(
-                        eye=dict(x=2, y=2, z=0.1)
+                fig.update_layout(margin=dict(l=30, r=10, t=20, b=10), scene_camera=dict(
+                        eye=dict(x=1.8, y=1.8, z=0.1)
                     ))
 
                 fig.show()
