@@ -16,6 +16,9 @@ from matplotlib.lines import Line2D
 from ipywidgets import Layout, Label
 from ipywidgets import interact, interact_manual
 
+import plotly.express as px
+#import plotly.graph_objects as go
+
 from IPython.display import HTML
 from IPython.display import display, clear_output
 from beakerx import TableDisplay
@@ -170,21 +173,22 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
     search_widget = widgets.Text(description="Search", style={'description_width': '50px'})
 
     ''' Creates reac_keys_dic to display reaction equations but still be able 
-    to call the calculation function using the rection symbol '''
+    to call the calculation function using the reaction symbol '''
     records_keys=[]
     if len(reaction_equations)>0:
         for i, key_ in  enumerate(records.keys()):
             records_keys.append(reaction_equations[i])
             reac_keys_dic.update( {reaction_equations[i] : key_} )
     else:
-        records_keys = records.keys()
+        records_keys = list(records.keys())
 
     # options_dict = {}
     # for descr in log_progress(iter(records_keys), every=1):
     #     options_dict=make_options(options_dict, descr)
 
     options_dict = {description: widgets.Checkbox(description=description, value=False,style={'description_width': '10px'}, layout={'width':'285px'}) for description in log_progress(iter(records_keys), every=1, size=len(records_keys), name='Records', progress_out=progress_out)}
-    #options_dict[records_keys[0]].value = True # first record ticked
+    if len(records_keys)>0:
+        options_dict[records_keys[0]].value = True # first record ticked
     """ Properties of subst or reactions """
     props_dict = {description: widgets.Checkbox(description=description, value=False, style={'description_width': '10px'}) for description in properties}
     props_dict[properties[0]].value = True
@@ -244,7 +248,8 @@ def multi_checkbox_widget(records, properties, reaction_equations = []):
         return accordion
     
     options_widget = widgets.VBox(options, layout=box_layout)
-    ac_ = make_accordion([w.description for w in options_widget.children if w.value])
+
+    ac_ = make_accordion([]) # was [w.description for w in options_widget.children if w.value]
 
     txt = widgets.Label(value='Properties')
     props_widget = widgets.VBox(options_props, layout=box_layout)
@@ -520,6 +525,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
     tabs = make_tabs_3( dfSelectSubst[db_file], dfSelectReact[db_file], dfInputReact[db_file], ['Substances', 'Reactions', 'Write Reactions'])
     
     plot_out=widgets.Output()
+    plot3d_out=widgets.Output()
     link_out=widgets.Output()
     status_out=widgets.Output()
 
@@ -569,6 +575,8 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
                 #tabs.selected_index=ndx
 
                 with plot_out:
+                    clear_output()
+                with plot3d_out:
                     clear_output()
                 with table_out:
                     clear_output()
@@ -665,6 +673,33 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
                 p = pd.unique(df['P(bar)'])
                 plt.show()
                 print(f'Pressure {p}(bar)')
+            with plot3d_out:
+                clear_output(wait=True)
+                df = pd.read_csv('results.csv')
+                cols1 = df.columns
+
+                fig = px.scatter_3d(df, x = df[cols1[2]], y = df[cols1[1]] ,z=df[cols1[3]], color='Symbol', hover_name="Symbol")
+
+                fig.update_traces(marker=dict(size=4, opacity=0.8), selector=dict(mode='markers'))
+
+
+                #buttons1 = [dict(method = "restyle",   
+                # args = [{'x': [df[cols1[2]]],
+                #          'y': [df[cols1[1]]],
+                #          'z': [df[cols1[k]]]
+                #          #'color': ['Symbol', 'undefined'],
+                #          #'hover_name': ['Symbol', 'undefined'],
+                #          #'visible':[True, False]
+                #          }
+                #        ], 
+                # label = cols1[k])   for k in range(3, len(cols1))] 
+
+
+                fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), scene_camera=dict(
+                        eye=dict(x=2, y=2, z=0.1)
+                    ))
+
+                fig.show()
             with table_out:
                 clear_output(wait=True)
                 df = pd.read_csv('results.csv')
@@ -693,7 +728,7 @@ def load_widgets(dfDatabase, dfSelectSubst, dfSelectReact, dfInputReact) :
     
     
     #display(link_out)
-    tabs_results = make_tabs(table_out, plot_out, ['Table', 'Plot'])
+    tabs_results = make_tabs_3(table_out, plot_out, plot3d_out, ['Table', 'Plot 2D', 'Plot 3D'])
  #   hbox=widgets.HBox(children=(table_out, plot_out))
     display(tabs_results)
 
