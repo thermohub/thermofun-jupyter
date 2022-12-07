@@ -21,7 +21,7 @@ import plotly.express as px
 
 from IPython.display import HTML
 from IPython.display import display, clear_output
-from beakerx import TableDisplay
+#from beakerx import TableDisplay
 
 from common.functions import create_csv_download_link
 import uuid
