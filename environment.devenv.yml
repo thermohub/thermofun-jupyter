@@ -1,0 +1,17 @@
+name: thermofun-jupyter
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - numpy
+  - pip
+  - thermofun=0.4.1
+  - thermohubclient
+  - pandas
+  - plotly
+  - jmespath
+  - pip:
+    - matplotlib
+    - IPython
+    - voila
+    - py4j
