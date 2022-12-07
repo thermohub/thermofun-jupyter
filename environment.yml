@@ -7,8 +7,7 @@ dependencies:
   - pip
   - thermofun=0.4.1
   - thermohubclient
-  - pandas=0.25.3
-  - beakerx=1.4.1
+  - pandas
   - plotly
   - jmespath
   - pip:
