@@ -17,6 +17,7 @@
 
 import re
 import traceback
+import numpy as np
 
 def _chess_aq_formulas(formula):
     """Converts a GEMS formula to CHESS format 
@@ -118,3 +119,70 @@ def reaction_to_chess(substance, reaction, Ts, logKs, datasource):
     except:
         print("An error occurred") 
         traceback.print_exc()
+
+def to_phreeqc_formula(formula):
+    if formula == 'H2O@':
+        return 'H2O'
+    result = formula.find('@')
+    if result!=-1:
+        return formula.replace("@", "")
+    return formula
+
+def to_reactant(y, x, first=False):
+    if y > 0.0:
+        if first:
+            return f' {round(y, 4)}{to_phreeqc_formula(x)}'
+        else:
+            return f' +{round(y, 4)}{to_phreeqc_formula(x)}'
+    else:
+        return f' {round(y, 4)}{to_phreeqc_formula(x)}'
+
+def phreeqc_reaction_equation(formula, reaction_dic):
+    reaction_keys = list(reaction_dic.keys())
+    equation = f''+ formula + ' ='
+    
+    for x, y in reaction_dic.items():
+        if x == reaction_keys[0]:
+            equation = equation + to_reactant(y,x, True)
+        else:
+            if x != reaction_keys[-1]:
+                equation = equation + to_reactant(y,x, False)
+    
+    return equation
+
+def reaction_to_phreeqc(substance, reaction, props):
+    
+    reaction_eq = phreeqc_reaction_equation(substance.formula(), reaction)
+    
+    return (f"{substance.symbol()}\n"
+                         f"\t{reaction_eq}\n"
+                         f"\t-Vm {substance.thermoReferenceProperties().volume.val*10:.2f}\n"
+                         f"\t-analytical_expression {props['A0']:.6f} {0.0} {props['A2']:.6f} {props['A3']:.6f} {0.0} {0.0} {0.0}\n"
+                         f"\t-log_K {props['logK']:.4f}\n"
+                         f"\n")
+
+def to_phreeqc(filename, engine, substances, reactions, reactions_dic, datasource):
+    string_ = f''
+    R_= 8.3144621
+    for i, r in enumerate(reactions):
+        props = engine.thermoPropertiesReaction(298.15, 0, r)
+        logkr = props.log_equilibrium_constant.val
+        Gr = props.reaction_gibbs_energy.val
+        Sr = props.reaction_entropy.val
+        Cpr = props.reaction_heat_capacity_cp.val
+        Hr = Gr+298.15*Sr
+        A0 = (Sr-Cpr*(1+np.log(298.15)))/(R_*np.log(10))
+        A1 = 0.0
+        A2 = (Cpr*298.15-Hr)/(R_*np.log(10))
+        A3 = Cpr/R_
+        A4 = 0.0
+        A5 = 0.0
+        string_ = string_+reaction_to_phreeqc(substances[i], reactions_dic[i],{'A0':A0, 'A2':A2, 'A3':A3, 'logK':logkr})
+    #open text file
+    text_file = open(filename, "w")
+ 
+    #write string to file
+    text_file.write(string_)
+ 
+    #close file
+    text_file.close()  
