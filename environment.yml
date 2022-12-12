@@ -5,9 +5,11 @@ dependencies:
   - python=3.9
   - numpy
   - pip
-  - thermofun=0.4.1
+  - thermofun
+  - xgems
   - thermohubclient
   - pandas
+  - chaospy
   - plotly
   - jmespath
   - pip:

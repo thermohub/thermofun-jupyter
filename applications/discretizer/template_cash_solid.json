@@ -1,0 +1,125 @@
+
+        {
+            "Pst": 100000,
+            "TPMethods": [
+                {
+                    "limitsTP": {
+                        "lowerT": 273.15,
+                        "range": true,
+                        "upperT": 373.15
+                    },
+                    "m_heat_capacity_ft_coeffs": {
+                        "names": [
+                            "a0",
+                            "a1",
+                            "a2",
+                            "a3",
+                            "a4",
+                            "a5",
+                            "a6",
+                            "a7",
+                            "a8",
+                            "a9",
+                            "a10"
+                        ],
+                        "units": [
+                            "J/(mol*K)",
+                            "J/(mol*K^2)",
+                            "(J*K)/mol",
+                            "J/(mol*K^0.5)",
+                            "J/(mol*K^3)",
+                            "J/(mol*K^4)",
+                            "J/(mol*K^5)",
+                            "(J*K^2)/mol",
+                            "J/mol",
+                            "J/(mol*K^1.5)",
+                            "J/(mol*K)"
+                        ],
+                        "values": [
+                            386.29998779296875,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    },
+                    "method": {
+                        "0": "cp_ft_equation"
+                    }
+                },
+                {
+                    "method": {
+                        "34": "mv_constant"
+                    }
+                }
+            ],
+            "Tst": 298.15,
+            "aggregate_state": {
+                "3": "AS_CRYSTAL"
+            },
+            "class_": {
+                "0": "SC_COMPONENT"
+            },
+            "datasources": [
+                "Kulik_ea:2020:ms1:"
+            ],
+            "formula": "{CaOOH}:{CaH(OH)2}:{H2O}:[(CaSiO3)2H2O]",
+            "formula_charge": 0,
+            "mass_per_mole": {
+                "units": [
+                    "g/mol"
+                ],
+                "values": [
+                    416.5393981933594
+                ]
+            },
+            "name": "TCCh end-member of C(NKA)SH SSS model (init. from TvCh) (+H2O)",
+            "sm_enthalpy": {
+                "units": [
+                    "J/mol"
+                ],
+                "values": [
+                    -5808786.39020214
+                ]
+            },
+            "sm_entropy_abs": {
+                "units": [
+                    "J/(mol*K)"
+                ],
+                "values": [
+                    410.5
+                ]
+            },
+            "sm_gibbs_energy": {
+                "units": [
+                    "J/mol"
+                ],
+                "values": [
+                    -5347540
+                ]
+            },
+            "sm_heat_capacity_p": {
+                "units": [
+                    "J/(mol*K)"
+                ],
+                "values": [
+                    386.29998779296875
+                ]
+            },
+            "sm_volume": {
+                "units": [
+                    "J/bar"
+                ],
+                "values": [
+                    15.430000305175781
+                ]
+            },
+            "symbol": "TCCh"
+        }
