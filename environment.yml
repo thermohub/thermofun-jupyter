@@ -5,10 +5,9 @@ dependencies:
   - python=3.9
   - numpy
   - pip
-  - fmt>10.0.0
   - thermofun
   - xgems
-  - gems3k
+  - spdlog=1.11.0
   - thermohubclient
   - pandas
   - chaospy
