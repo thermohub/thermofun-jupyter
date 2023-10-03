@@ -6,7 +6,8 @@ dependencies:
   - numpy
   - pip
   - thermofun
-  - xgems=1.0.7
+  - xgems
+  - gems3k=4.3.5
   - thermohubclient
   - pandas
   - chaospy
