@@ -129,6 +129,7 @@ def to_phreeqc_formula(formula):
     return formula
 
 def to_reactant(y, x, first=False):
+    y = 0-y
     if y > 0.0:
         if first:
             return f' {round(y, 4)}{to_phreeqc_formula(x)}'
@@ -158,7 +159,7 @@ def reaction_to_phreeqc(substance, reaction, props):
                          f"\t{reaction_eq}\n"
                          f"\t-Vm {substance.thermoReferenceProperties().volume.val*10:.2f}\n"
                          f"\t-analytical_expression {props['A0']:.6f} {0.0} {props['A2']:.6f} {props['A3']:.6f} {0.0} {0.0} {0.0}\n"
-                         f"\t-log_K {props['logK']:.4f}\n"
+                         f"\t-log_K {0-props['logK']:.4f}\n"
                          f"\n")
 
 def to_phreeqc(filename, engine, substances, reactions, reactions_dic, datasource):
