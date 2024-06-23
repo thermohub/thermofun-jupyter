@@ -1,4 +1,5 @@
-# Copyright (C) 2022 dmiron
+# Copyright (C) 2022 dmiron thermoecos
+# thermohub.org
 # 
 # This file is part of thermoexport.
 # 
@@ -18,6 +19,7 @@
 import re
 import traceback
 import numpy as np
+from scipy.optimize import curve_fit
 
 def _chess_aq_formulas(formula):
     """Converts a GEMS formula to CHESS format 
@@ -129,7 +131,6 @@ def to_phreeqc_formula(formula):
     return formula
 
 def to_reactant(y, x, first=False):
-    y = 0-y
     if y > 0.0:
         if first:
             return f' {round(y, 4)}{to_phreeqc_formula(x)}'
@@ -142,22 +143,7 @@ def phreeqc_reaction_equation(formula, reaction_dic):
     reaction_keys = list(reaction_dic.keys())
     equation = f''+ formula + ' ='
     
-    # fix hydrated Si
-    coeff_h2o=0
-    coeff_siO2=0
     for x, y in reaction_dic.items():
-        if x == 'H2O@':
-            coeff_h2o=y
-        if x == 'SiO2@':
-            coeff_siO2=y
-        
-    coeff_h2o = coeff_h2o-2*coeff_siO2
-    
-    for x, y in reaction_dic.items():
-        if x == 'H2O@':
-            y=coeff_h2o
-        if x == 'SiO2@':
-            x='Si(OH)4'
         if x == reaction_keys[0]:
             equation = equation + to_reactant(y,x, True)
         else:
@@ -172,12 +158,16 @@ def reaction_to_phreeqc(substance, reaction, props):
     
     return (f"{substance.symbol()}\n"
                          f"\t{reaction_eq}\n"
-                         f"\t-Vm {substance.thermoReferenceProperties().volume.val*10:.2f}\n"
-                         f"\t-analytical_expression {props['A0']:.6f} {0.0} {props['A2']:.6f} {props['A3']:.6f} {0.0} {0.0} {0.0}\n"
-                         f"\t-log_K {0-props['logK']:.4f}\n"
+                         f"\t-Vm {substance.thermoReferenceProperties().volume.val:.2f}\n"
+                         f"\t-analytical_expression {props['A1']:.6f} {props['A2']:.6f} {props['A3']:.6f} {props['A4']:.6f} {props['A5']:.6f} {props['A6']:.6f}\n"
+                         f"\t-log_K {props['logK']:.4f}\n"
                          f"\n")
+                         
+def func(x, a1, a2, a3, a4, a5, a6):
+    x = x+273.15
+    return a1+a2*x+a3/x+a4*np.log10(x)+a5/(x*x)+a6*(x*x)
 
-def to_phreeqc(filename, engine, substances, reactions, reactions_dic, datasource):
+def to_phreeqc(filename, engine, substances, reactions, reactions_dic, analytical=True):
     string_ = f''
     R_= 8.3144621
     for i, r in enumerate(reactions):
@@ -187,13 +177,27 @@ def to_phreeqc(filename, engine, substances, reactions, reactions_dic, datasourc
         Sr = props.reaction_entropy.val
         Cpr = props.reaction_heat_capacity_cp.val
         Hr = Gr+298.15*Sr
-        A0 = (Sr-Cpr*(1+np.log(298.15)))/(R_*np.log(10))
-        A1 = 0.0
-        A2 = (Cpr*298.15-Hr)/(R_*np.log(10))
-        A3 = Cpr/R_
-        A4 = 0.0
+        A1 = (Sr-Cpr*(1+np.log(298.15)))/(R_*np.log(10))
+        A2 = 0.0
+        A3 = (Cpr*298.15-Hr)/(R_*np.log(10))
+        A4 = Cpr/R_
         A5 = 0.0
-        string_ = string_+reaction_to_phreeqc(substances[i], reactions_dic[i],{'A0':A0, 'A2':A2, 'A3':A3, 'logK':logkr})
+        A6 = 0.0
+        
+        if analytical:
+            initial_params = [A1,A2,A3,A4,A5,A6]
+            xdata = list(range(0, 300, 5))
+            ydata = [engine.thermoPropertiesReaction(t+273.1501, 0, r).log_equilibrium_constant.val for t in xdata]
+            popt, pcov = curve_fit(func, xdata, ydata, initial_params)
+            #print(popt)
+            A1 = popt[0]
+            A2 = popt[1]
+            A3 = popt[2]
+            A4 = popt[3]
+            A5 = popt[4]
+            A6 = popt[5]
+        
+        string_ = string_+reaction_to_phreeqc(substances[i], reactions_dic[i],{'A1':A1, 'A2':A2, 'A3':A3, 'A4':A4, 'A5':A5,'A6':A6, 'logK':logkr})
     #open text file
     text_file = open(filename, "w")
  

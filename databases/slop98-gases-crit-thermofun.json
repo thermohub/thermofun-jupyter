@@ -1,0 +1,1845 @@
+{
+  "datasources": [
+    "db.thermohub.org"
+  ],
+  "date": "05.01.2021 09:07:54",
+  "elements": [
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          1.00794994831085
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          65.3399963378906
+        ]
+      },
+      "symbol": "H"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          4.00260019302368
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          126.15299987793
+        ]
+      },
+      "symbol": "He"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          12.0108003616333
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          5.73999977111816
+        ]
+      },
+      "symbol": "C"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          14.0066995620728
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          95.8044967651367
+        ]
+      },
+      "symbol": "N"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          15.999400138855
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          102.569000244141
+        ]
+      },
+      "symbol": "O"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          20.1790008544922
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          146.328002929688
+        ]
+      },
+      "symbol": "Ne"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          32.0670013427734
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          31.7980003356934
+        ]
+      },
+      "symbol": "S"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          39.9480018615723
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          154.845993041992
+        ]
+      },
+      "symbol": "Ar"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          83.8000030517578
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          164.085006713867
+        ]
+      },
+      "symbol": "Kr"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          131.289993286133
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          169.684997558594
+        ]
+      },
+      "symbol": "Xe"
+    },
+    {
+      "atomic_mass": {
+        "name": "M0i",
+        "values": [
+          222
+        ]
+      },
+      "class_": {
+        "0": "ELEMENT"
+      },
+      "datasources": [
+        "Supcrt-Slop98"
+      ],
+      "entropy": {
+        "name": "S0i",
+        "values": [
+          176.210006713867
+        ]
+      },
+      "symbol": "Rn"
+    }
+  ],
+  "reactions": [],
+  "substances": [
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 2523.15
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              12.6647,
+              -0.0104041,
+              1307.8
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              647.1,
+              22055000,
+              0.345
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "17"
+      ],
+      "formula": "H2O",
+      "name": "H2O(g)",
+      "sm_enthalpy": {
+        "values": [
+          -242400.4584
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          187.288392
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -228131.7632
+        ]
+      },
+      "symbol": "H2O(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 8000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              4.968,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              150.9,
+              4898000,
+              0
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "Ar",
+      "name": "Ar(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          154.841472
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "Ar(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 1500
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              5.65,
+              0.01144,
+              -46000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              190.6,
+              4599000,
+              0.012
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "CH4",
+      "name": "CH4(g)",
+      "sm_enthalpy": {
+        "values": [
+          -74809.92
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          186.263312
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -50720.1216
+        ]
+      },
+      "symbol": "CH4(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 2500
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              10.57,
+              0.0021,
+              -206000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              304.2,
+              7383000,
+              0.224
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "CO2",
+      "name": "CO2(g)",
+      "sm_enthalpy": {
+        "values": [
+          -393509.384
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          213.73964
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -394358.736
+        ]
+      },
+      "symbol": "CO2(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 3000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              6.52,
+              0.00078,
+              12000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              33.19,
+              1313000,
+              -0.216
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "H2",
+      "name": "H2(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          130.683056
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "H2(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 2300
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              7.81,
+              0.00296,
+              -46000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              373.5,
+              8963000,
+              0.094
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "H2S",
+      "name": "H2S(g)",
+      "sm_enthalpy": {
+        "values": [
+          -20631.304
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          205.79004
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -33559.864
+        ]
+      },
+      "symbol": "H2S(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 8000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              4.968,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              5.2,
+              228000,
+              -0.39
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "He",
+      "name": "He(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          126.151784
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "He(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 8000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              4.968,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              209.4,
+              5502000,
+              0
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "Kr",
+      "name": "Kr(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          164.083928
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "Kr(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 3000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              6.83,
+              0.0009,
+              -12000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              126.2,
+              3400000,
+              0.038
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "N2",
+      "name": "N2(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          191.610464
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "N2(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 8000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              4.968,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              44,
+              2700000,
+              0
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "Ne",
+      "name": "Ne(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          146.327032
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "Ne(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 1800
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              7.11,
+              0.006,
+              -37000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              405.7,
+              11280000,
+              0.253
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "NH3",
+      "name": "NH3(g)",
+      "sm_enthalpy": {
+        "values": [
+          -46111.864
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          192.464
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -16451.488
+        ]
+      },
+      "symbol": "NH3(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 3000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              7.16,
+              0.001,
+              -40000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              154.6,
+              5043000,
+              0.022
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "O2",
+      "name": "O2(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          205.137336
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "O2(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 3000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              4.968,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              377,
+              6280000,
+              0
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "Rn",
+      "name": "Rn(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          176.23008
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "Rn(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 3000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              8.72,
+              0.00016,
+              -90000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              0,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "S2",
+      "name": "S2(g)",
+      "sm_enthalpy": {
+        "values": [
+          128369.304
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          228.19536
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          79299.352
+        ]
+      },
+      "symbol": "S2(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 2000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              11.04,
+              0.00188,
+              -184000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              430.8,
+              7884000,
+              0.245
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "SO2",
+      "name": "SO2(g)",
+      "sm_enthalpy": {
+        "values": [
+          -296829.696
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          248.23672
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -300193.632
+        ]
+      },
+      "symbol": "SO2(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 8000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              4.968,
+              0,
+              0
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              289.7,
+              5840000,
+              0
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "6,8"
+      ],
+      "formula": "Xe",
+      "name": "Xe(g)",
+      "sm_enthalpy": {
+        "values": [
+          0
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          169.68212
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          0
+        ]
+      },
+      "symbol": "Xe(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 1000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              9.8334,
+              0.0035123,
+              -149160
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              309.6,
+              7245000,
+              0.141
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "G17"
+      ],
+      "formula": "N2O",
+      "name": "N2O(g)",
+      "sm_enthalpy": {
+        "values": [
+          82048.24
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          219.84828
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          104181.6
+        ]
+      },
+      "symbol": "N2O(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 1000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              6.2954,
+              0.0018362,
+              24878
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              180.2,
+              6480000,
+              0.583
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "G17"
+      ],
+      "formula": "NO",
+      "name": "NO(g)",
+      "sm_enthalpy": {
+        "values": [
+          90248.88
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          210.760632
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          86566.96
+        ]
+      },
+      "symbol": "NO(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 1000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              8.35,
+              0.00015,
+              -229000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              282.3,
+              5040000,
+              0.087
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "G2"
+      ],
+      "formula": "C2H4",
+      "name": "C2H4(g)",
+      "sm_enthalpy": {
+        "values": [
+          52300
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          219.4508
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          68115.52
+        ]
+      },
+      "symbol": "C2H4(g)"
+    },
+    {
+      "Pst": 100000,
+      "TPMethods": [
+        {
+          "limitsTP": {
+            "lowerT": 273.15,
+            "upperT": 5000
+          },
+          "m_heat_capacity_ft_coeffs": {
+            "names": [
+              "a",
+              "b",
+              "c"
+            ],
+            "units": [
+              "J/(mol*K)",
+              "J/(mol*K^2)",
+              "(J*K)/mol"
+            ],
+            "values": [
+              6.79,
+              0.00098,
+              -11000
+            ]
+          },
+          "method": {
+            "0": "cp_ft_equation"
+          }
+        },
+        {
+          "eos_gas_crit_props": {
+            "names": [
+              "CriticalTemperature",
+              "CriticalPressure",
+              "AcentricFactor"
+            ],
+            "units": [
+              "K",
+              "Pa"
+            ],
+            "values": [
+              132.9,
+              3499000,
+              0.048
+            ]
+          },
+          "method": {
+            "8": "fug_critical_param"
+          }
+        }
+      ],
+      "Tst": 298.15,
+      "aggregate_state": {
+        "0": "AS_GAS"
+      },
+      "class_": {
+        "1": "SC_GASFLUID"
+      },
+      "datasources": [
+        "G2"
+      ],
+      "formula": "CO",
+      "name": "CO(g)",
+      "sm_enthalpy": {
+        "values": [
+          -110524.544
+        ]
+      },
+      "sm_entropy_abs": {
+        "values": [
+          197.67308
+        ]
+      },
+      "sm_gibbs_energy": {
+        "values": [
+          -137168.256
+        ]
+      },
+      "symbol": "CO(g)"
+    }
+  ],
+  "thermodataset": [
+    "slop98-gases-crit"
+  ]
+}

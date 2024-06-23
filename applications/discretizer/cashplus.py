@@ -118,15 +118,27 @@ def calculate_discretized_model(composition, discretized_composition, digits=4):
         sio2='SiO2'
         cao='CaO'
         formula = f''
+        symbol = f''
         for c in cash_composition:
             for k in c:
                 formula = formula + f'({k}){round(c[k], digits)}'
+      
+                if k == 'SiO2':
+                    symbol = symbol + f'S{round(c[k], digits)}'
+                if k == 'CaO':
+                    symbol = symbol + f'C{round(c[k], digits)}'
+                if k == 'K2O':
+                    symbol = symbol + f'K{round(c[k], digits)}'
+                if k == 'Na2O':
+                    symbol = symbol + f'N{round(c[k], digits)}'
+                if k == 'Al2O3':
+                    symbol = symbol + f'A{round(c[k], digits)}' 
         
         s = s+formula
         print(s)
         
         # cash mg gibbs energy is divded with amount as workaround to a big in gems3k api
-        cash.append({'composition': cash_composition, 'formula': formula, 'G': cash_mg, 'H':cash_mh*cash_amount, 'S': cash_ms*cash_amount,
+        cash.append({'composition': cash_composition, 'formula': formula, 'symbol':symbol, 'G': cash_mg, 'H':cash_mh*cash_amount, 'S': cash_ms*cash_amount,
                     'Cp': cash_mcp*cash_amount, 'V': cash_mv*1e6*cash_amount, 'Mmas': cash_mm*1000*cash_amount})
     return cash
 

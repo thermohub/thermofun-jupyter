@@ -1,0 +1,19 @@
+{
+  "TPMethods":[
+    {
+      "dr_ryzhenko_coeffs":{
+        "values":[
+          3.61,
+          1.563,
+          -193.7
+        ]
+      },
+      "method":{
+        "10":"solute_eos_ryzhenko_gems"
+      }
+    }
+  ],
+  "datasources":"Migdisov et al., 2016",
+  "equation":"LaSO4+_mi = La+3 + SO4-2",
+  "symbol":"LaSO4+_mi"
+}

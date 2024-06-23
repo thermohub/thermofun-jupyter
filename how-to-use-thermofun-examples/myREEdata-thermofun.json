@@ -1,0 +1,185 @@
+{
+    "thermodataset": "my-data",
+    "datasources": [],
+    "date": "",
+    "substances": [
+        {
+            "symbol": "LaSO4+_mi",
+            "formula": "LaSO4+",
+            "reaction": "LaSO4+_mi"
+        },
+        {
+            "Pst": 100000,
+            "TPMethods": [
+                {
+                    "eos_hkf_coeffs": {
+                        "names": [
+                            "a1",
+                            "a2",
+                            "a3",
+                            "a4",
+                            "c1",
+                            "c2",
+                            "wref"
+                        ],
+                        "units": [
+                            "cal/(mol*bar)",
+                            "cal/mol",
+                            "(cal*K)/(mol*bar)",
+                            "(cal*K)/mol",
+                            "cal/(mol*K)",
+                            "(cal*K)/mol",
+                            "cal/mol"
+                        ],
+                        "values": [
+                            -0.3304100036621094,
+                            -1584.9200439453125,
+                            11.979399681091309,
+                            -21238,
+                            8.281499862670898,
+                            -100215,
+                            241150,
+                            0
+                        ]
+                    },
+                    "method": {
+                        "2": "solute_hkf88_gems"
+                    }
+                }
+            ],
+            "Tst": 298.15,
+            "aggregate_state": {
+                "4": "AS_AQUEOUS"
+            },
+            "class_": {
+                "2": "SC_AQSOLUTE"
+            },
+            "datasources": [
+                "Slop98_dat:1998:data:"
+            ],
+            "formula": "Er+3",
+            "formula_charge": 3,
+            "m_compressibility": {
+                "units": [
+                    "1e-05/K"
+                ],
+                "values": [
+                    1.1754943508222875e-38
+                ]
+            },
+            "m_expansivity": {
+                "units": [
+                    "kbar"
+                ],
+                "values": [
+                    1.1754943508222875e-38
+                ]
+            },
+            "mass_per_mole": {
+                "units": [
+                    "g/mol"
+                ],
+                "values": [
+                    167.25999450683594
+                ]
+            },
+            "name": "Er+3 ion",
+            "sm_enthalpy": {
+                "errors": [
+                    0
+                ],
+                "units": [
+                    "J/mol"
+                ],
+                "values": [
+                    -705124.9846828461
+                ]
+            },
+            "sm_entropy_abs": {
+                "errors": [
+                    0
+                ],
+                "units": [
+                    "J/(mol*K)"
+                ],
+                "values": [
+                    -243.92999267578125
+                ]
+            },
+            "sm_gibbs_energy": {
+                "errors": [
+                    0
+                ],
+                "units": [
+                    "J/mol"
+                ],
+                "values": [
+                    -695000
+                ]
+            },
+            "sm_heat_capacity_p": {
+                "errors": [
+                    0
+                ],
+                "units": [
+                    "J/(mol*K)"
+                ],
+                "values": [
+                    -142.4755859375
+                ]
+            },
+            "sm_volume": {
+                "errors": [
+                    0
+                ],
+                "units": [
+                    "J/bar"
+                ],
+                "values": [
+                    -4.373842716217041
+                ]
+            },
+            "symbol": "Er+3_fit"
+        }
+    ],
+    "reactions": [
+        {
+            "TPMethods": [
+                {
+                    "dr_ryzhenko_coeffs": {
+                        "values": [
+                            3.61,
+                            1.563,
+                            -193.7
+                        ]
+                    },
+                    "method": {
+                        "10": "solute_eos_ryzhenko_gems"
+                    }
+                }
+            ],
+            "datasources": "Migdisov et al., 2016",
+            "equation": "LaSO4+_mi = La+3 + SO4-2",
+            "symbol": "LaSO4+_mi"
+        },
+        {
+            "TPMethods": [
+                {
+                    "dr_ryzhenko_coeffs": {
+                        "values": [
+                            3.64,
+                            1.024,
+                            131.14
+                        ]
+                    },
+                    "method": {
+                        "10": "solute_eos_ryzhenko_gems"
+                    }
+                }
+            ],
+            "datasources": "Migdisov et al., 2016",
+            "equation": "NdSO4+_mi = Nd+3 + SO4-2",
+            "symbol": "NdSO4+_mi"
+        }
+    ]
+}
