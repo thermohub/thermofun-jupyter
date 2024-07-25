@@ -7,7 +7,7 @@ dependencies:
   - pip
   - chemicalfun=0.1.9=py310hd41b1e2_1
   - xgems=1.0.8=py310h3908379_0
-  - thermofun=0.4.4=py310haded995_0
+  - thermofun=0.5.0
   - thermohubclient
   - pandas
   - chaospy
