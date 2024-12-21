@@ -67,7 +67,8 @@ def plot_substances_properties_vs_temperature(results_csv_file, substances, pres
     next(m_cycle) 
     next(m_cycle)
     props_indexes= range(len(data.columns[3:]))
-    legend2 = plt.legend([lines[i] for i in props_indexes], data_select.columns[3:],  ncol=1)
+    legend2 = plt.legend([lines[i] for i in props_indexes], data_select.columns[3:], 
+                         loc='center left', bbox_to_anchor=(1, 0.5))  # Second legend outside on the right
     handles, labels = plt.gca().get_legend_handles_labels()
     for handle, text in zip(handles, legend2.get_texts()):
         text.set_color('black')
