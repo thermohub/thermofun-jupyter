@@ -7,7 +7,7 @@ dependencies:
   - pip
   - chemicalfun
   - xgems
-  - thermofun=0.5.0
+  - thermofun>=0.5.1
   #- thermofun>=0.3.4
   - thermohubclient
 #  - pandas=0.25.3
